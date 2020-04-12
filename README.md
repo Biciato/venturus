@@ -1,11 +1,19 @@
-Steps to build development version:
+Clone the project:
 
-    $ git clone https://github.com/Biciato/venturus.git && cd venturus $$ npm install && npm start
+    $ git clone https://github.com/Biciato/venturus.git && cd venturus
 
-Steps to build production version:
+Install packages:
 
-    $ git clone https://github.com/Biciato/venturus.git && cd venturus $$ npm install && npm build
+    $ npm install 
+    
+Run the development version:
 
-Steps to run tests:
+    $ npm start
 
-    $ git clone https://github.com/Biciato/venturus.git && cd venturus $$ npm install && npm test
+Build production version:
+
+    $ npm build
+
+Run tests:
+
+    $ npm test
