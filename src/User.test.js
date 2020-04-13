@@ -1,7 +1,7 @@
 import React from "react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import { render } from "./test-utils";
 import "@testing-library/jest-dom/extend-expect";
 import Users from "./Pages/Users";
@@ -71,8 +71,9 @@ test("should filter table", async () => {
     fireEvent.keyDown(el, { key: "n", code: "KeyN" });
     fireEvent.keyDown(el, { key: "t", code: "KeyT" });
     // await for table update
-    await setTimeout(() => {
-        rows = screen.getAllByRole("row").length;
-        expect(rows).toBe(2);
-    }, 3000);
+    waitForElementToBeRemoved(() => screen.getByText('Bret'))
+        .then(() => {
+            rows = screen.getAllByRole("row").length;
+            expect(rows).toBe(2)
+        })    
 });

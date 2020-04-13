@@ -7,17 +7,9 @@ import axios from 'axios'
 import './Users.scss'
 import UserDialog from '../Components/UserDialog'
 import HeaderSport from "../Components/HeaderSport";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import Typography from '@material-ui/core/Typography';
-import { Link } from "react-router-dom";
-import HomeIcon from '@material-ui/icons/Home';
+import BreadCrumb from '../Components/BreadCrumb'
 import Grid from '@material-ui/core/Grid'
-
-// Style
-const bredcrumbStyle = {
-    padding: "0.5em 1em",
-    backgroundColor: "beige",
-};
+import { breadcrumbStyle } from '../CustomStyles/Styles' 
 
 function Users(props) {
     const { setUsers } = props
@@ -81,13 +73,8 @@ function Users(props) {
     }, [setUsers]);
     return (
         <Grid id="users" container justify="center">
-            <Grid item xs={12} style={bredcrumbStyle}>
-                <Breadcrumbs separator=">" aria-label="breadcrumb" style={{ backgroundColor: '#F5F5DC' }}>
-                    <Link color="inherit" to="/">
-                        <HomeIcon style={{ color: 'mediumaquamarine' }}/>
-                    </Link>
-                    <Typography color="textPrimary">User List</Typography>
-                </Breadcrumbs>     
+            <Grid item xs={12} style={breadcrumbStyle}>
+                <BreadCrumb />
             </Grid>
             <Grid item xs={12}>
                 <HeaderSport />
@@ -101,8 +88,7 @@ function Users(props) {
                         actionsColumnIndex: -1,
                         paging: false,
                         headerStyle: {
-                            border: 'none',
-                            position: 'sticky'
+                            border: 'none'
                         }
                     }}
                     actions={[

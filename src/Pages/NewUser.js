@@ -2,117 +2,28 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addUser } from "../redux/actions";
-import Grid from "@material-ui/core/Grid";
+import clsx from "clsx";
+import BootstrapInput from "../HOC/BootstrapInput";
+import Alert from "../Components/Alert";
 import PaperContent from "../Components/PaperContent";
 import paperContents from "../resources/paper-content";
-import Divider from "@material-ui/core/Divider";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormGroup from "@material-ui/core/FormGroup";
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import Typography from "@material-ui/core/Typography";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputBase from "@material-ui/core/InputBase";
-import { Link } from "react-router-dom";
-import HomeIcon from "@material-ui/icons/Home";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-import { makeStyles, withStyles, fade } from "@material-ui/core/styles";
-import clsx from "clsx";
-
-// Alert Component
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-// Styles
-const btnStyle = { margin: "0.5em 0.5em 0", color: "white", textTransform: "none" };
-
-const formLabels = {
-    width: "100%",
-    color: "black",
-    fontWeight: 700,
-    fontSize: "1.2em",
-};
-
-const bredcrumbStyle = {
-    padding: "0.5em 1em",
-    backgroundColor: "beige",
-};
-// End Styles
-
-// Custom Input Component
-const BootstrapInput = withStyles((theme) => ({
-    root: {
-        "label + &": {
-            marginTop: theme.spacing(3),
-        },
-    },
-    input: {
-        borderRadius: 4,
-        position: "relative",
-        backgroundColor: theme.palette.common.white,
-        border: "1px solid #ced4da",
-        fontSize: 16,
-        width: "100%",
-        padding: "10px 12px",
-        transition: theme.transitions.create(["border-color", "box-shadow"]),
-        "&:focus": {
-            boxShadow: `${fade("#66CDAA", 0.25)} 0 0 0 0.2rem`,
-            borderColor: "mediumaquamarine",
-        },
-    },
-}))(InputBase);
-
-// Material Ui Style Setup
-const useStyles = makeStyles({
-    root: {
-        "&:hover": {
-            backgroundColor: "transparent",
-        },
-    },
-    icon: {
-        borderRadius: 3,
-        width: 16,
-        height: 16,
-        boxShadow: "inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)",
-        backgroundColor: "#f5f8fa",
-        backgroundImage: "linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))",
-        "$root.Mui-focusVisible &": {
-            outline: "2px auto rgba(19,124,189,.6)",
-            outlineOffset: 2,
-        },
-        "input:hover ~ &": {
-            backgroundColor: "#ebf1f5",
-        },
-        "input:disabled ~ &": {
-            boxShadow: "none",
-            background: "rgba(206,217,224,.5)",
-        },
-    },
-    checkedIcon: {
-        backgroundColor: "mediumaquamarine",
-        backgroundImage: "linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))",
-        "&:before": {
-            display: "block",
-            width: 16,
-            height: 16,
-            backgroundImage:
-                "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath" +
-                " fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 " +
-                "1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\")",
-            content: '""',
-        },
-        "input:hover ~ &": {
-            backgroundColor: "mediumaquamarine",
-        },
-    },
-});
+import { breadcrumbStyle, btnStyle, formLabels, useStyles } from "../CustomStyles/Styles";
+import {
+    Button,
+    Checkbox,
+    Divider,
+    FormControlLabel,
+    FormControl,
+    FormLabel,
+    FormGroup,
+    Grid,
+    InputLabel,
+    Radio,
+    RadioGroup,
+    Snackbar,
+    Typography,
+} from "@material-ui/core";
+import BreadCrumb from "../Components/BreadCrumb";
 
 function NewUser(props) {
     // Input fields
@@ -129,8 +40,8 @@ function NewUser(props) {
     const [errors, setErrors] = useState({
         username: false,
         name: false,
-        email: false
-    })
+        email: false,
+    });
     // Store action
     const { addUser } = props;
     // Material Ui Custom styles
@@ -159,12 +70,12 @@ function NewUser(props) {
     // End Input Change Handlers
     // Save user in the store
     const saveUser = () => {
-        if ([name, username, email].includes('') ) {
+        if ([name, username, email].includes("")) {
             setErrors({
-                username: username === '' ? true : false,
-                name: name === '' ? true : false,
-                email: email === '' ? true : false
-            })
+                username: username === "" ? true : false,
+                name: name === "" ? true : false,
+                email: email === "" ? true : false,
+            });
         } else {
             addUser({
                 name,
@@ -180,15 +91,18 @@ function NewUser(props) {
 
     return (
         <Grid id="newUser" container justify="center">
-            <Grid item xs={12} style={bredcrumbStyle}>
-                <Breadcrumbs separator=">" aria-label="breadcrumb">
-                    <Link to="/">
-                        <HomeIcon style={{ color: "mediumaquamarine" }} />
-                    </Link>
-                    <Typography color="textPrimary">New User Form</Typography>
-                </Breadcrumbs>
+            <Grid item xs={12} style={breadcrumbStyle}>
+                <BreadCrumb />
             </Grid>
-            <Grid className="header" container item xs={12} alignItems="center" spacing={10}  style={{ marginTop: '0.5em' }}>
+            <Grid
+                className="header"
+                container
+                item
+                xs={12}
+                alignItems="center"
+                spacing={10}
+                style={{ marginTop: "0.5em" }}
+            >
                 <Grid xs={4} item>
                     <Typography variant="h3" style={{ fontWeight: 300 }}>
                         Registration
@@ -196,7 +110,7 @@ function NewUser(props) {
                 </Grid>
                 <Grid xs={8} item style={{ height: "3%", backgroundColor: "beige", padding: 0 }}></Grid>
             </Grid>
-            <Grid container item xs={12} spacing={10} style={{ marginTop: '0.5em' }}>
+            <Grid container item xs={12} spacing={10} style={{ marginTop: "0.5em" }}>
                 <Grid container item>
                     {paperContents.map((item, idx) => (
                         <Grid item xs={4} key={idx}>
@@ -216,9 +130,15 @@ function NewUser(props) {
                                 <InputLabel shrink htmlFor="username" style={formLabels}>
                                     Username
                                 </InputLabel>
-                                <BootstrapInput id="username" required onChange={handleUsername} value={username} />
+                                <BootstrapInput
+                                    id="username"
+                                    required
+                                    onChange={handleUsername}
+                                    value={username}
+                                    inputProps={{ "data-testid": "username-input" }}
+                                />
                             </FormControl>
-                            {errors.username && <Grid style={{ color: 'red' }}>Username is required</Grid>}
+                            {errors.username && <Grid style={{ color: "red" }}>Username is required</Grid>}
                         </Grid>
                         <Grid item xs={6}>
                             <FormControl className={classes.margin} style={{ width: "100%" }}>
@@ -233,9 +153,15 @@ function NewUser(props) {
                                 <InputLabel shrink htmlFor="name" style={formLabels}>
                                     Name
                                 </InputLabel>
-                                <BootstrapInput id="name" required onChange={handleName} value={name} />
+                                <BootstrapInput
+                                    id="name"
+                                    required
+                                    onChange={handleName}
+                                    value={name}
+                                    inputProps={{ "data-testid": "name-input" }}
+                                />
                             </FormControl>
-                            {errors.name && <Grid style={{ color: 'red' }}>Name is required</Grid>}
+                            {errors.name && <Grid style={{ color: "red" }}>Name is required</Grid>}
                         </Grid>
                         <Grid item xs={6}>
                             <FormControl component="fieldset" style={{ width: "100%" }}>
@@ -258,9 +184,14 @@ function NewUser(props) {
                                                     disableRipple
                                                     color="default"
                                                     checkedIcon={
-                                                        <span className={clsx(classes.icon, classes.checkedIcon)} />
+                                                        <span
+                                                            className={clsx(
+                                                                classes.radioIcon,
+                                                                classes.checkedRadioIcon
+                                                            )}
+                                                        />
                                                     }
-                                                    icon={<span className={classes.icon} />}
+                                                    icon={<span className={classes.radioIcon} />}
                                                     label={item}
                                                 />
                                             }
@@ -275,9 +206,15 @@ function NewUser(props) {
                                 <InputLabel shrink htmlFor="email" style={formLabels}>
                                     E-mail
                                 </InputLabel>
-                                <BootstrapInput id="email" required onChange={handleEmail} value={email} />
+                                <BootstrapInput
+                                    id="email"
+                                    required
+                                    onChange={handleEmail}
+                                    value={email}
+                                    inputProps={{ "data-testid": "email-input" }}
+                                />
                             </FormControl>
-                            {errors.email && <Grid style={{ color: 'red' }}>E-mail is required</Grid>}
+                            {errors.email && <Grid style={{ color: "red" }}>E-mail is required</Grid>}
                         </Grid>
                         <Grid item xs={6} style={{ paddingRight: 0 }}>
                             <FormControl component="fieldset" style={{ width: "108%" }}>
@@ -341,7 +278,7 @@ function NewUser(props) {
         </Grid>
     );
 }
-const mapStateToProps = store => (store.users);
+const mapStateToProps = (store) => store.users;
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ addUser }, dispatch);
 

@@ -1,7 +1,6 @@
-import React from "react";
-import Paper from "@material-ui/core/Paper";
-import Icon from "@material-ui/core/Icon";
-import Typography from '@material-ui/core/Typography'
+import React, { useEffect } from "react";
+import { loadCSS } from "fg-loadcss";
+import { Icon, Paper, Typography} from "@material-ui/core";
 
 const iconStyle = { 
     color: 'mediumaquamarine', 
@@ -14,6 +13,12 @@ const pStyle = {
 }
 
 export default function PaperContent(props) {
+    useEffect(() => {
+        loadCSS(
+            "https://use.fontawesome.com/releases/v5.12.0/css/all.css",
+            document.querySelector("#font-awesome-css")
+        );
+    }, []);
     return (
         <Paper elevation={0}>
             <Typography variant="h5" style={{ color: 'mediumaquamarine' }}>{props.title}</Typography>

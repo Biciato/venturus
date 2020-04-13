@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
 import { Switch, Route, useLocation, useHistory, Link } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import Icon from "@material-ui/core/Icon";
 import Users from "./Pages/Users";
 import NewUser from "./Pages/NewUser";
-import { makeStyles } from "@material-ui/core/styles";
-import { loadCSS } from "fg-loadcss";
 import Avatar from "@material-ui/core/Avatar";
-import { Divider } from "@material-ui/core";
-import { ChevronRight, KeyboardArrowDown } from '@material-ui/icons';
+import { ChevronRight, KeyboardArrowDown } from "@material-ui/icons";
+import { 
+    AppBar, 
+    Divider, 
+    Icon, 
+    makeStyles, 
+    MenuItem, 
+    Menu, 
+    Toolbar, 
+    Typography, 
+    withStyles 
+} from "@material-ui/core";
 
 // Mock User
 const user = {
@@ -29,41 +31,43 @@ const user = {
 // Material Ui Style Setup
 const useStyles = makeStyles((theme) => ({
     root: { flexGrow: 1, height: "100%", backgroundColor: "white" },
-    appName: { 
-        flexGrow: 1, 
-        backgroundColor: "white", 
-        color: "black", 
-        cursor: 'pointer',
-        fontSize: '1.3em',
-        fontWeight: '500',
-        textDecoration: 'none'
+    appName: {
+        flexGrow: 1,
+        backgroundColor: "white",
+        color: "black",
+        cursor: "pointer",
+        fontSize: "1.3em",
+        fontWeight: "500",
+        textDecoration: "none",
     },
     userMenu: {
-        backgroundColor: "white", 
-        color: "black", 
-        cursor: 'pointer',
-    }
+        backgroundColor: "white",
+        color: "black",
+        cursor: "pointer",
+    },
 }));
 
+const StyledMenuItem = withStyles((theme) => ({
+    root: {
+        padding: "1em 1.5em",
+        "&:hover": {
+            color: "aquamarine",
+        },
+    },
+}))(MenuItem);
+// End Material Ui Style Setup
 // Styles
 const iconStyle = { color: "mediumaquamarine", marginRight: "0.5em" };
 
 const avatarStyle = { backgroundColor: "white", color: "black", border: "1px solid black", marginRight: "0.5em" };
 
-const menuItems = ['Friends List', 'Saved Items', 'Notifications', 'User Preferences']
+const menuItems = ["Friends List", "Saved Items", "Notifications", "User Preferences"];
 // End Styles
 
 export default function App() {
-    // importing font awesome
-    useEffect(() => {
-        loadCSS(
-            "https://use.fontawesome.com/releases/v5.12.0/css/all.css",
-            document.querySelector("#font-awesome-css")
-        );
-    }, []);
     // Material Ui styles
     const classes = useStyles();
-    // set login menu 
+    // set login menu
     const [loginStatus, setLoginStatus] = useState(false);
     // select chevron icon
     const [ChevronIcon, setChevronIcon] = useState(ChevronRight);
@@ -89,13 +93,13 @@ export default function App() {
 
     // open menu dropdown
     const handleMenu = (event) => {
-        setChevronIcon(KeyboardArrowDown)
+        setChevronIcon(KeyboardArrowDown);
         setAnchorEl(event.currentTarget);
     };
 
     // close menu dropdown
     const handleClose = () => {
-        setChevronIcon(ChevronRight)
+        setChevronIcon(ChevronRight);
         setAnchorEl(null);
     };
     return (
@@ -118,31 +122,35 @@ export default function App() {
                                     {user.getInitials(user.name)}
                                 </Avatar>
                                 <Typography className={classes.userMenu} onClick={handleMenu}>
-                                    {user.name}                                    
+                                    {user.name}
                                 </Typography>
-                                <ChevronIcon style={{ color: 'black' }}/>
+                                <ChevronIcon style={{ color: "black" }} />
                             </div>
 
                             <Menu
                                 id="menu-appbar"
+                                getContentAnchorEl={null}
                                 anchorEl={anchorEl}
                                 anchorOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
+                                    vertical: "bottom",
+                                    horizontal: "center",
                                 }}
                                 keepMounted
                                 transformOrigin={{
                                     vertical: "top",
-                                    horizontal: "right",
+                                    horizontal: "center",
                                 }}
                                 open={open}
                                 onClose={handleClose}
+                                style={{ top: "1em" }}
                             >
-                                {menuItems.map((item, idx) => 
-                                    <MenuItem onClick={handleClose} key={idx}>{item}</MenuItem>
-                                )}   
+                                {menuItems.map((item, idx) => (
+                                    <StyledMenuItem onClick={handleClose} key={idx}>
+                                        {item}
+                                    </StyledMenuItem>
+                                ))}
                                 <Divider />
-                                <MenuItem onClick={handleClose}>Logout</MenuItem>                            
+                                <StyledMenuItem onClick={handleClose}>Logout</StyledMenuItem>
                             </Menu>
                         </div>
                     )}
